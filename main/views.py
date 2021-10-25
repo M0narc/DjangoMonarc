@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from .models import ToDoList, Item
+from .forms import CreateNewList
 import datetime
 
 
@@ -11,6 +12,21 @@ def index(response):
 
 def home(response):
     return render(response, "main/home.html", {})
+
+
+def create(response):
+    if response.method == "POST":
+        # this is holding all the info of our form in a dictionary
+        form = CreateNewList(response.POST)
+        if form.is_valid():
+            n = form.cleaned_data["name"]
+            t = ToDoList(name=n)
+            t.save()
+        return HttpResponseRedirect("/%i" % t.id)
+    else:
+        form = CreateNewList()
+
+    return render(response, "main/create.html", {"form": form})
 
 
 def to_do_list(response, id):
@@ -35,4 +51,3 @@ def show_date(request):
     </body>
     </html>""" % current_date
     return HttpResponse(document)
-
