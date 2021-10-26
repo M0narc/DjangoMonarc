@@ -35,6 +35,9 @@ def to_do_list(response, id):
     our db and display it's name using ls.name,
     even though objects.get is not part of python, it will work
     the same will happen with ls.name
+    we also interact with the list.html in order to update the
+    checkboxes and add new items in our lists
+    :param id: ToDoList id
     """
     ls = ToDoList.objects.get(id=id)
     if response.method == "POST":
