@@ -3,13 +3,19 @@
 
 {% block content %}
     <h1>{{ls.name}}</h1>
-    <ul>
-    {% for item in ls.item_set.all %}
-        {% if item.complete == False %}
-            <li id=incomplete{{forloop.counter}}>{{item.text}} - INCOMPLETE</li>
-        {% else %}
-            <li id=completed{{forloop.counter}}>{{item.text}} - COMPLETE</li>
-        {% endif %}
-    {% endfor %}
-    </ul>
+    <form method="post" action="#">
+      {% csrf_token %}
+        <ul>
+            {% for item in ls.item_set.all %}
+                {% if item.complete == False %}
+                    <li id=incomplete{{forloop.counter}}><input type="checkbox", value="clicked", name="c{{item.id}}">{{item.text}}</li>
+                {% else %}
+                    <li id=completed{{forloop.counter}}><input type="checkbox", value="clicked", name="c{{item.id}}" checked>{{item.text}}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        <input type="text", name="new">
+        <button type="submit", name="newItem", value="newItem">Add Item</button>
+        <button type="submit", name="save", value="save">Save</button>
+    </form>
 {% endblock %}
