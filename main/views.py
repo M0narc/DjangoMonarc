@@ -39,21 +39,27 @@ def to_do_list(response, id):
     checkboxes and add new items in our lists
     :param id: ToDoList id
     """
+    # first we instantiate the todolist objects id
     ls = ToDoList.objects.get(id=id)
+    # if the response method from the list.html is POST run the code below
     if response.method == "POST":
         print(response.POST)
+        # the name of the BUTTON in list.html
         if response.POST.get("save"):
             for item in ls.item_set.all():
+                # the checkbox id's have a "c" before the id, if it's cicked this is true otherwise it isn't :v
                 if response.POST.get("c" + str(item.id)) == "clicked":
                     item.complete = True
                 else:
                     item.complete = False
-
+                # remember to save!
                 item.save()
 
+        # here we're clicking new item button, besides the textbox
         elif response.POST.get("newItem"):
             txt = response.POST.get("new")
             if len(txt) > 2:
+                # item_set is kinda like a setter from any other object
                 ls.item_set.create(text=txt, complete=False)
             else:
                 print("Invalid")
