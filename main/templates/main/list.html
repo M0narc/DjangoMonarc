@@ -4,18 +4,30 @@
 {% block content %}
     <h1>{{ls.name}}</h1>
     <form method="post" action="#">
+        <!--every time you create a form you need to write a csrf_token -->
       {% csrf_token %}
-        <ul>
             {% for item in ls.item_set.all %}
-                {% if item.complete == False %}
-                    <li id=incomplete{{forloop.counter}}><input type="checkbox", value="clicked", name="c{{item.id}}">{{item.text}}</li>
-                {% else %}
-                    <li id=completed{{forloop.counter}}><input type="checkbox", value="clicked", name="c{{item.id}}" checked>{{item.text}}</li>
-                {% endif %}
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            {% if item.complete == False %}
+                                <input id="incomplete{{forloop.counter}}", type="checkbox", value="clicked", name="c{{item.id}}">
+                            {% else %}
+                                <input id="completed{{forloop.counter}}", type="checkbox", value="clicked", name="c{{item.id}}" checked>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <input type="text", value="{{item.text}}" class="form-control">
+                </div>
             {% endfor %}
-        </ul>
-        <input type="text", name="new">
-        <button type="submit", name="newItem", value="newItem">Add Item</button>
-        <button type="submit", name="save", value="save">Save</button>
+        
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <!--remember the name of the buttons you're going to interact in the views.py-->
+                <button type="submit", name="newItem", value="newItem", class="btn btn-success">Add Item</button>
+            </div>
+            <input type="text", name="new">
+        </div>
+        <button type="submit", name="save", value="save", class="btn btn-success">Save</button>
     </form>
 {% endblock %}
