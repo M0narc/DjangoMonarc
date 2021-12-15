@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
     'main.apps.MainConfig', # last thing added
+    'register.apps.RegisterConfig',
 ]
 
 MIDDLEWARE = [
@@ -119,3 +121,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# specify what you're going to use here from Crispy
+# pip install django-crispy-forms
+CRISPY_TEMPLATE_PACK = "bootstrap4"
